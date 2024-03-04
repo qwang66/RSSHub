@@ -19,19 +19,19 @@ sidebar_position: 3
 
 ### 创建主文件
 
-打开您的代码编辑器并创建一个新文件。由于我们要为 GitHub 仓库 Issues 制作 RSS 源，因此建议将文件命名为 `issue.js`。
+打开您的代码编辑器并创建一个新文件。由于我们要为 GitHub 仓库 Issues 制作 RSS 源，因此建议将文件命名为 `issue.ts`。
 
 以下是让您开始的基本代码：
 
 <Tabs>
-<TabItem value="issue.js" label="issue.js">
+<TabItem value="issue.ts" label="issue.ts">
 
 ```js
 // 导入所需模组
 import got from '@/utils/got'; // 自订的 got
 import { parseDate } from '@/utils/parse-date';
 
-module.exports = async (ctx) => {
+export default async (ctx) => {
     // 在此处编写您的逻辑
 
     ctx.set('data', {
@@ -51,7 +51,7 @@ module.exports = async (ctx) => {
 <TabItem value="Object destructuring" label="解构赋值" default>
 
 ```js
-module.exports = async (ctx) => {
+export default async (ctx) => {
     // highlight-next-line
     const { user, repo = 'RSSHub' } = ctx.req.param();
 
@@ -65,7 +65,7 @@ module.exports = async (ctx) => {
 <TabItem value="Traditional assignment" label="传统赋值">
 
 ```js
-module.exports = async (ctx) => {
+export default async (ctx) => {
     // highlight-start
     const user = ctx.req.param('user');
     const repo = ctx.req.param('repo') ?? 'RSSHub';
@@ -90,7 +90,7 @@ module.exports = async (ctx) => {
 <TabItem value="Object destructuring" label="解构赋值" default>
 
 ```js
-module.exports = async (ctx) => {
+export default async (ctx) => {
     const { user, repo = 'RSSHub' } = ctx.req.param();
     // highlight-start
     // 发送 HTTP GET 请求到 API 并解构返回的数据对象
@@ -117,7 +117,7 @@ module.exports = async (ctx) => {
 <TabItem value="Traditional assignment" label="传统赋值">
 
 ```js
-module.exports = async (ctx) => {
+export default async (ctx) => {
     const user = ctx.req.param('user');
     const repo = ctx.req.param('repo') ?? 'RSSHub';
     // highlight-start
@@ -158,7 +158,7 @@ module.exports = async (ctx) => {
 import got from '@/utils/got';
 import { parseDate } from '@/utils/parse-date';
 
-module.exports = async (ctx) => {
+export default async (ctx) => {
     const { user, repo = 'RSSHub' } = ctx.req.param();
 
     const { data } = await got(`https://api.github.com/repos/${user}/${repo}/issues`, {
@@ -207,7 +207,7 @@ module.exports = async (ctx) => {
 import got from '@/utils/got';
 import { parseDate } from '@/utils/parse-date';
 
-module.exports = async (ctx) => {
+export default async (ctx) => {
     const { user, repo = 'RSSHub' } = ctx.req.param();
 
     const { data } = await got(`https://api.github.com/repos/${user}/${repo}/issues`, {
@@ -252,7 +252,7 @@ module.exports = async (ctx) => {
 
 ### 创建主文件
 
-打开您的代码编辑器并创建一个新文件。由于我们要为 GitHub 仓库 Issues 制作 RSS 源，因此建议将文件命名为 `issue.js`。
+打开您的代码编辑器并创建一个新文件。由于我们要为 GitHub 仓库 Issues 制作 RSS 源，因此建议将文件命名为 `issue.ts`。
 
 以下是让您开始的基本代码：
 
@@ -262,7 +262,7 @@ import got from '@/utils/got'; // 自订的 got
 import { load } from 'cheerio'; // 可以使用类似 jQuery 的 API HTML 解析器
 import { parseDate } from '@/utils/parse-date';
 
-module.exports = async (ctx) => {
+export default async (ctx) => {
     // 在此处编写您的逻辑
 
     ctx.set('data', {
@@ -280,7 +280,7 @@ module.exports = async (ctx) => {
 如前所述，我们需要从用户输入中获取 GitHub 用户名和仓库名称。如果请求 URL 中未提供仓库名称，则应默认为 `RSSHub`。您可以使用以下代码实现：
 
 ```js
-module.exports = async (ctx) => {
+export default async (ctx) => {
     // highlight-start
     // 从 URL 参数中获取用户名和仓库名称
     const { user, repo = 'RSSHub' } = ctx.req.param();
@@ -356,7 +356,7 @@ import got from '@/utils/got';
 import { load } from 'cheerio';
 import { parseDate } from '@/utils/parse-date';
 
-module.exports = async (ctx) => {
+export default async (ctx) => {
     const baseUrl = 'https://github.com';
     const { user, repo = 'RSSHub' } = ctx.req.param();
 
@@ -404,7 +404,7 @@ import got from '@/utils/got';
 import { load } from 'cheerio';
 import { parseDate } from '@/utils/parse-date';
 
-module.exports = async (ctx) => {
+export default async (ctx) => {
     const baseUrl = 'https://github.com';
     const { user, repo = 'RSSHub' } = ctx.req.param();
 
@@ -477,7 +477,7 @@ module.exports = async (ctx) => {
 2.  数据来源链接
 3.  RSS 订阅标题（不是每个文章的标题）
 
-打开您的代码编辑器并创建一个新文件。由于我们要为 GitHub 仓库 Issues 制作 RSS 源，因此建议将文件命名为 `issue.js`。
+打开您的代码编辑器并创建一个新文件。由于我们要为 GitHub 仓库 Issues 制作 RSS 源，因此建议将文件命名为 `issue.ts`。
 
 这是一些基础代码，你可以从这里开始：
 
@@ -485,7 +485,7 @@ module.exports = async (ctx) => {
 // 导入所需模组
 import buildData from '@/utils/common-config';
 
-module.exports = async (ctx) => {
+export default async (ctx) => {
     ctx.set('data', await buildData({
         link: '', // RSS 来源链接
         url: '', // 数据来源链接
@@ -504,7 +504,7 @@ module.exports = async (ctx) => {
 ```js
 import buildData from '@/utils/common-config';
 
-module.exports = async (ctx) => {
+export default async (ctx) => {
     const { user, repo = 'RSSHub' } = ctx.req.param();
     const link = `https://github.com/${user}/${repo}/issues`;
 
@@ -543,7 +543,7 @@ import got from '@/utils/got';
 import { load } from 'cheerio';
 // highlight-end
 
-module.exports = async (ctx) => {
+export default async (ctx) => {
     const { user, repo = 'RSSHub' } = ctx.req.param();
     const link = `https://github.com/${user}/${repo}/issues`;
 
@@ -588,7 +588,7 @@ module.exports = async (ctx) => {
 
 ### 创建主文件
 
-创建一个新文件并使用适当的名称保存，例如 `issue.js`。然后，导入所需模组并设置函数的基本结构：
+创建一个新文件并使用适当的名称保存，例如 `issue.ts`。然后，导入所需模组并设置函数的基本结构：
 
 ```js
 // 导入所需模组
@@ -596,7 +596,7 @@ import { load } from 'cheerio'; // 可以使用类似 jQuery 的 API HTML 解析
 import { parseDate } from '@/utils/parse-date';
 import logger from '@/utils/logger';
 
-module.exports = async (ctx) => {
+export default async (ctx) => {
     // 在此处编写您的逻辑
 
     ctx.set('data', {
@@ -618,7 +618,7 @@ import { parseDate } from '@/utils/parse-date';
 import logger from '@/utils/logger';
 import puppeteer from '@/utils/puppeteer';
 
-module.exports = async (ctx) => {
+export default async (ctx) => {
     const baseUrl = 'https://github.com';
     const { user, repo = 'RSSHub' } = ctx.req.param();
 
@@ -673,7 +673,7 @@ import got from '@/utils/got';
 import { load } from 'cheerio';
 import { parseDate } from '@/utils/parse-date';
 
-module.exports = async (ctx) => {
+export default async (ctx) => {
     const baseUrl = 'https://github.com';
     const { user, repo = 'RSSHub' } = ctx.req.param();
 
@@ -700,7 +700,7 @@ import { parseDate } from '@/utils/parse-date';
 import logger from '@/utils/logger';
 import puppeteer from '@/utils/puppeteer';
 
-module.exports = async (ctx) => {
+export default async (ctx) => {
     const baseUrl = 'https://github.com';
     const { user, repo = 'RSSHub' } = ctx.req.param();
 

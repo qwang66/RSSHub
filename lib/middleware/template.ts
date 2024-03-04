@@ -5,6 +5,9 @@ import { collapseWhitespace, convertDateToISO8601 } from '@/utils/common-utils';
 import type { MiddlewareHandler } from 'hono';
 import { Data } from '@/types';
 
+import { getCurrentPath } from '@/utils/helpers';
+const __dirname = getCurrentPath(import.meta.url);
+
 const middleware: MiddlewareHandler = async (ctx, next) => {
     await next();
 
@@ -14,15 +17,12 @@ const middleware: MiddlewareHandler = async (ctx, next) => {
     // only enable when debugInfo=true
     if (config.debugInfo) {
         if (outputType === 'debug.json') {
-            ctx.header('Content-Type', 'application/json; charset=UTF-8');
-            return ctx.body(ctx.get('json') ? JSON.stringify(ctx.get('json'), null, 4) : JSON.stringify({ message: 'plugin does not set debug json' }));
+            return ctx.json(ctx.get('json') || { message: 'plugin does not set debug json' });
         }
 
         if (/(\d+)\.debug\.html$/.test(outputType)) {
-            ctx.header('Content-Type', 'text/html; charset=UTF-8');
-
             const index = Number.parseInt(outputType.match(/(\d+)\.debug\.html$/)?.[1] || '0');
-            return ctx.body(data?.item?.[index]?.description || `data.item[${index}].description not found`);
+            return ctx.html(data?.item?.[index]?.description || `data.item[${index}].description not found`);
         }
     }
 
@@ -87,11 +87,12 @@ const middleware: MiddlewareHandler = async (ctx, next) => {
     }
 
     if (outputType === 'ums') {
-        ctx.header('Content-Type', 'application/json; charset=UTF-8');
-        return ctx.body(rss3Ums(result));
+        return ctx.json(rss3Ums(result));
     } else if (outputType === 'json') {
         ctx.header('Content-Type', 'application/feed+json; charset=UTF-8');
         return ctx.body(json(result));
+    } else if (ctx.get('no-content')) {
+        return ctx.body(null);
     } else {
         return ctx.body(art(template, result));
     }
