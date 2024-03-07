@@ -1,8 +1,7 @@
-// @ts-nocheck
-const readline = require('node:readline/promises');
-const { Api, TelegramClient } = require('telegram');
-const { StringSession } = require('telegram/sessions');
-const { getAppropriatedPartSize } = require('telegram/Utils');
+import readline from 'node:readline/promises';
+import { Api, TelegramClient } from 'telegram';
+import { StringSession } from 'telegram/sessions';
+import { getAppropriatedPartSize } from 'telegram/Utils';
 
 import { config } from '@/config';
 
@@ -69,7 +68,7 @@ function ExpandInlineBytes(bytes) {
 }
 
 function getMediaLink(ctx, channel, channelName, message) {
-    const base = `${ctx.protocol}://${ctx.host}/telegram/channel/${channelName}/${config.feature.mediaProxyKey}/`;
+    const base = `${ctx.protocol}://${ctx.host}/telegram/channel/${channelName}`;
     const src = base + `${channel.channelId}_${message.id}`;
 
     const x = message.media;
@@ -177,7 +176,7 @@ function streamDocument(obj, thumbSize = '', offset, limit) {
     return client.iterDownload(iterFileParams);
 }
 
-module.exports = { client, getMediaLink, decodeMedia, getFilename, streamDocument, streamThumbnail };
+export { client, getMediaLink, decodeMedia, getFilename, streamDocument, streamThumbnail };
 
 if (require.main === module) {
     Promise.resolve().then(async () => {

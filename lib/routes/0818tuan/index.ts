@@ -1,4 +1,3 @@
-// @ts-nocheck
 import cache from '@/utils/cache';
 import got from '@/utils/got';
 import { load } from 'cheerio';
@@ -19,7 +18,7 @@ export default async (ctx) => {
             item = $(item);
             return {
                 title: item.attr('title'),
-                link: `${baseUrl}${item.attr('href')}`,
+                link: item.attr('href').startsWith('http') ? item.attr('href') : `${baseUrl}${item.attr('href')}`,
             };
         })
         .filter((i) => !i.link.includes('m.0818tuan.com/tb1111.php'));
